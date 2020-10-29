@@ -14,7 +14,7 @@ class Processor:
     # this function allow adding tasks after verifying the capacity criteria
 
     def addTask(self, task) -> int:
-        if 1 >= self.__capacity__ + task :
+        if 1 >= self.__capacity__ + task:
             self.__tasks__.append(task)
             self.__capacity__ = self.__capacity__ + task
             return 1
@@ -23,8 +23,10 @@ class Processor:
 
     def removeTask(self, task) -> int:
         # requirement to allow removing a task from the processor
-        if (self.self.__capacity__-task ) > 0 & task in self.tasks:
+        if (self.__capacity__-task) > 0 & task in self.__tasks__:
             self.__tasks__.remove(task)
             return 1
         return 0
 
+    def displayTasks(self):
+        return self.__tasks__
