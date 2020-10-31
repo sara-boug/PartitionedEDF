@@ -3,6 +3,7 @@ The main calss where everything would be put togather
 
 """
 from Partitionner import Partitioner
+from TaskGenerator import TaskGenerator
 
 
 class Main:
@@ -14,6 +15,12 @@ class Main:
         p.nextFit()
         p.getProcessors()
 
+    @staticmethod
+    def taskGenerator():
+        t = TaskGenerator(10, 3)
+        t.uniFastDiscarded()
+
 
 m = Main()
-m.partition()
+# m.partition()
+m.taskGenerator()
