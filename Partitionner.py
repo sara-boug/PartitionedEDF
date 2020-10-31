@@ -12,11 +12,20 @@ class Partitioner:
     # processors
     # considering that each processor's utilization is equal to 1
     # tasks might be sorted in an increasing or decreasing order
-    processors = []
 
     def __init__(self, tasks):  # Receiving the task set as a parameter
         self.__tasks__ = tasks
         self.__processors__ = []
+
+    def nextFit(self):  # In the next-fit algorithm only a single bin(processor) is considered
+        current_p = Processor()  # If it doesn't fit then a new bin (processor) is created
+        # current_p refers to the the current processor that is considered
+        for task in self.__tasks__:
+            if current_p.addTask(task) == 0:
+                self.__processors__.append(current_p)  # appending the previous processor to the list
+                current_p = Processor()  # adding a new processor
+                current_p.addTask(task)
+        self.__processors__.append(current_p)   # appending the last used processor
 
     def firstFit(self):
         p = Processor()

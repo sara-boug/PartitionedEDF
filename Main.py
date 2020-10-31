@@ -10,8 +10,8 @@ class Main:
     def partition():
         tasks = [0.6, 0.2, 0.9, 0.1]
         p = Partitioner(tasks)
-        p.sort("DESC")
-        p.firstFit()
+        p.sort("ASC")
+        p.nextFit()
         p.getProcessors()
 
 

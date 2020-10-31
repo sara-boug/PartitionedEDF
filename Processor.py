@@ -12,9 +12,8 @@ class Processor:
         self.__capacity__ = 0  # keeping track of the processor capacity
 
     # this function allow adding tasks after verifying the capacity criteria
-
     def addTask(self, task) -> int:
-        if 1 >= self.__capacity__ + task:
+        if self.__capacity__ + task <= 1:
             self.__tasks__.append(task)
             self.__capacity__ = self.__capacity__ + task
             return 1
