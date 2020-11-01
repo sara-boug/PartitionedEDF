@@ -19,6 +19,7 @@ class Main:
     def taskGenerator():
         t = TaskGenerator(10, 3)
         t.uniFastDiscarded()
+        t.generateTasks()
 
 
 m = Main()

@@ -51,7 +51,7 @@ class Partitioner:
             self.__tasks__.sort(reverse=True)
             return
 
-    def getProcessors(self):
+    def getProcessors(self):  # This methods used for display purpose
         for processor in self.__processors__:
             print(processor.displayTasks())
         return self.__processors__
