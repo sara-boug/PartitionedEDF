@@ -1,5 +1,5 @@
 """
-The main calss where everything would be put togather
+The main class where everything would be put together
 
 """
 from Partitionner import Partitioner
@@ -17,9 +17,10 @@ class Main:
 
     @staticmethod
     def taskGenerator():
-        t = TaskGenerator(10, 3)
+        t = TaskGenerator(10, 7)
         t.uniFastDiscarded()
         t.generateTasks()
+        t.toCsvFile()
 
 
 m = Main()
