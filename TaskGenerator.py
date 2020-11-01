@@ -8,8 +8,6 @@ from math import pow
 from scipy import stats
 from Task import Task
 import csv
-import os
-import asyncio
 
 
 class TaskGenerator:
@@ -19,12 +17,12 @@ class TaskGenerator:
         self.__vectors__ = []
         self.__tasks__ = []
 
-    def uniFastDiscarded(self):  # implementation of the uniFast algorithm for the task generation
+    def uniFastDiscarded(self):  # implementation of the uniFast algorithm for the generating approriate
         sum_u = self.__utilization__
         n = self.__number__ + 1
         i = 1  # the index
         vectors = []
-        while i <= n:
+        while i < n:
             next_sum_u = sum_u * pow(random(), 1 / (n - 1))
             new_sum_u = sum_u - next_sum_u
             if new_sum_u < 1:  # Discarding the tasks with utilization > 1
@@ -49,12 +47,13 @@ class TaskGenerator:
     # Writing the tasks to the csv file
     def toCsvFile(self):
         file_name = "Tasks.csv"
-        with open(file_name, mode="w") as tasks_file:
+        with open(file_name, 'w', newline='\n') as tasks_file:
             fields = ["offset", "deadline", "period", "wcet", "utilization"]
-            writer = csv.DictWriter(tasks_file, delimiter="|", dialect='excel-tab', fieldnames=fields)
+            writer = csv.DictWriter(tasks_file, fieldnames=fields)
+            writer.writeheader()
             for task in self.__tasks__:
                 writer.writerow({
-                    fields[1]: task.offset,
+                    fields[0]: task.offset,
                     fields[1]: task.deadline,
                     fields[2]: task.period,
                     fields[3]: task.wcet,

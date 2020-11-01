@@ -21,8 +21,12 @@ class Main:
         t.uniFastDiscarded()
         t.generateTasks()
         t.toCsvFile()
+        p = Partitioner("Tasks.csv")
+        p.extractTasks()
+        p.sort("DESC")
+        p.firstFit()
+        p.displayProcessors()
 
 
 m = Main()
-# m.partition()
 m.taskGenerator()
