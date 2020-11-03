@@ -25,6 +25,9 @@ class Main:
         p.extractTasks()
         p.sort("DESC")
         p.firstFit()
+        p.nextFit()
+        p.bestFit()
+        p.worstFit()
         p.displayProcessors()
 
 

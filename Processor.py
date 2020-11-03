@@ -12,18 +12,21 @@ class Processor:
         self.__tasks__ = []
         self.__capacity__ = 0  # keeping track of the processor capacity
 
+    def getCapacity(self):
+        return self.__capacity__
+
     # this function allow adding tasks after verifying the capacity criteria
     def addTask(self, task: Task) -> int:
-        if self.__capacity__ + task.utilization <= 1:
+        if self.__capacity__ + task.getUtilization() <= 1:
             self.__tasks__.append(task)
-            self.__capacity__ = self.__capacity__ + task.utilization
+            self.__capacity__ = self.__capacity__ + task.getUtilization()
             return 1
         else:
             return 0
 
     def removeTask(self, task: Task) -> int:
         # requirement to allow removing a task from the processor
-        if (self.__capacity__ - task.utilization) > 0 & task in self.__tasks__:
+        if (self.__capacity__ - task.getUtilization()) > 0 & self.__tasks__.__contains__(task):
             self.__tasks__.remove(task)
             return 1
         return 0
