@@ -73,7 +73,8 @@ class Partitioner:
                             float(row["deadline"]),
                             float(row["period"]),
                             float(row["wcet"]),
-                            float(row["utilization"]))
+                            float(row["utilization"]),
+                            float(row['number']))
                 self.__tasks__.append(task)
 
     def displayProcessors(self):  # This methods used for display purpose
@@ -82,6 +83,9 @@ class Partitioner:
             for task in processor.getTasks():
                 print(task.toJson())
             print("]" + "\n")
+
+    def getProcessors(self):
+        return self.__processors__
 
     """ since, in the bin packing best and worst fist are similar, knowing the only 
         difference lay in the ordering of processors' capacity in each iteration"""

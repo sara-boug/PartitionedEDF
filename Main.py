@@ -4,6 +4,7 @@ The main class where everything would be put together
 """
 from Partitionner import Partitioner
 from TaskGenerator import TaskGenerator
+from EDF import EDF
 
 
 class Main:
@@ -25,10 +26,8 @@ class Main:
         p.extractTasks()
         p.sort("DESC")
         p.firstFit()
-        p.nextFit()
-        p.bestFit()
-        p.worstFit()
-        p.displayProcessors()
+        edf = EDF(p.getProcessors(), 1.2)
+        edf.scheduler()
 
 
 m = Main()

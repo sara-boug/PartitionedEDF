@@ -39,7 +39,9 @@ class TaskGenerator:
         for vector in self.__utilization_set__:
             period = x[i] / 1000  # Converting periods  from ms to seconds
             wcet = vector * period  # since the execution time can be obtained through Ci*Ui
-            task = Task(offset=0, deadline=period, period=period, wcet=wcet, utilization=vector)
+            task = Task(offset=0, deadline=round(period, 2),
+                        period=round(period, 2), wcet=round(wcet, 2),
+                        utilization=round(vector, 2), number=i)
             # in this case  we assume that period = deadline
             self.__tasks__.append(task)
             i = i + 1
@@ -48,7 +50,7 @@ class TaskGenerator:
     def toCsvFile(self):
         file_name = "Tasks.csv"
         with open(file_name, 'w', newline='\n') as tasks_file:
-            fields = ["offset", "deadline", "period", "wcet", "utilization"]
+            fields = ["offset", "deadline", "period", "wcet", "utilization", "number"]
             writer = csv.DictWriter(tasks_file, fieldnames=fields)
             writer.writeheader()
             for task in self.__tasks__:
@@ -57,5 +59,6 @@ class TaskGenerator:
                     fields[1]: task.getDeadline(),
                     fields[2]: task.getPeriod(),
                     fields[3]: task.getWcet(),
-                    fields[4]: task.getUtilization()
+                    fields[4]: task.getUtilization(),
+                    fields[5]: task.getNumber()
                 })
