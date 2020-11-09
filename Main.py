@@ -26,6 +26,7 @@ class Main:
         p.extractTasks()
         p.sort("DESC")
         p.firstFit()
+        p.displayProcessors()
         edf = EDF(p.getProcessors(), 1.2)
         edf.scheduler()
 
