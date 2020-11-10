@@ -25,6 +25,7 @@ class EDF:
     # the scheduler method will schedule all the tasks in the processors
     def scheduler(self):
         plt.figure()
+        plt.subplots_adjust(hspace=0.7, wspace=0.1, top=0.95, bottom=0.04)
         i = 0
         for processor in self.__processors__:
             self.__scheduleOne(processor, i)
@@ -66,11 +67,12 @@ class EDF:
             execute_tasks = self.__minAbsoluteDeadline(queue, time)
             runtime_task = execute_tasks[0]
             for execute_task in execute_tasks:
+                task_number = int(execute_task.task.getNumber())
                 print(f'{time} :   p{processor_num}  : Task {execute_task.task.getNumber()} executed')
 
                 # bar display ###
-                bar = axe.bar(x=time**2, height=1, width=execute_task.task.getWcet())
-                self.barLabel(bar=bar, label=f'T{execute_task.task.getNumber()}', axe=axe)
+                bar = axe.bar(x=time, height=1, width=execute_task.task.getWcet(), color=f'C{task_number}', alpha=0.15)
+                self.barLabel(bar=bar, label=f'T{task_number}', axe=axe)
                 # bar display ###
 
                 execute_task.i = execute_task.i + 1
@@ -81,6 +83,7 @@ class EDF:
 
     @staticmethod
     def barLabel(bar, label, axe):
-        height = bar.get_height()
-        axe.annotate(label, xy=(bar.get_x() + bar.get_y()/2, height), xytext=(0, 3),
-                     textCoords='offset points', ha='center', va='bottom')
+        for b in bar:
+            height = b.get_height()
+            axe.annotate(label, xy=(b.get_x() + b.get_width()/2, height), xytext=(4, 3),
+                         textcoords='offset pixels', ha='left', va='bottom', fontsize=8)
