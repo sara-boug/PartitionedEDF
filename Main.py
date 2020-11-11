@@ -18,7 +18,7 @@ class Main:
 
     @staticmethod
     def taskGenerator():
-        t = TaskGenerator(10, 7)
+        t = TaskGenerator(7, 6)
         t.uniFastDiscarded()
         t.generateTasks()
         t.toCsvFile()

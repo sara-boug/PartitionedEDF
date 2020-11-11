@@ -69,12 +69,12 @@ class Partitioner:
         with open(self.__task_file_name) as tasks_file_name:
             reader = csv.DictReader(tasks_file_name)
             for row in reader:
-                task = Task(float(row['offset']),  # It should be converted into float since
-                            float(row["deadline"]),
-                            float(row["period"]),
-                            float(row["wcet"]),
-                            float(row["utilization"]),
-                            float(row['number']))
+                task = Task(offset=float(row['offset']),  # It should be converted into float since
+                            deadline=float(row["deadline"]),
+                            period=float(row["period"]),
+                            wcet=float(row["wcet"]),
+                            utilization=float(row["utilization"]),
+                            number=float(row['number']))
                 self.__tasks__.append(task)
 
     def displayProcessors(self):  # This methods used for display purpose

@@ -15,6 +15,15 @@ class RuntimeTask:  # This class would be used to keep track of  tasks' absolute
         self.i = i
         self.absolute_deadline = absolute_deadline
 
+    def computeExecution(self, time):
+        task_period = self.i * self.task.getPeriod()
+        print(task_period, time, self.absolute_deadline)
+        exp = task_period <= time < self.absolute_deadline
+        execution_time = time
+        if not exp:
+            execution_time = task_period
+        return execution_time
+
 
 class EDF:
 
@@ -38,12 +47,11 @@ class EDF:
         min_deadline = runtime_tasks[0]
         queue = []  # this queue is used in the case where  several tasks have the same deadline
         for task in runtime_tasks:
-            if (task.absolute_deadline - time) <= (min_deadline.absolute_deadline - time):
+            if (task.absolute_deadline - time) < (min_deadline.absolute_deadline - time):
                 min_deadline = task
         for task in runtime_tasks:
             if (task.absolute_deadline - time) == (min_deadline.absolute_deadline - time):
                 queue.append(task)
-        queue.append(min_deadline)
         return queue
 
     #  Knowing that EDF scheduling is based on prioritizing the task having the lowest deadline at Ti
@@ -51,7 +59,7 @@ class EDF:
     def __scheduleOne(self, processor: Processor, processor_num: int):
         queue = []  # tasks queue
         for task in processor.getTasks():
-            runtime_task = RuntimeTask(task, 1, task.getDeadline())
+            runtime_task = RuntimeTask(task, 0, task.getDeadline())
             queue.append(runtime_task)
 
         # plotting part ####
@@ -65,25 +73,29 @@ class EDF:
         time = 0
         while self.__interval__ >= time:
             execute_tasks = self.__minAbsoluteDeadline(queue, time)
-            runtime_task = execute_tasks[0]
             for execute_task in execute_tasks:
+                print(execute_task.absolute_deadline)
                 task_number = int(execute_task.task.getNumber())
-                print(f'{time} :   p{processor_num}  : Task {execute_task.task.getNumber()} executed')
+                # updating the current time
+                time = execute_task.computeExecution(time)  # updating Ti
+
+                print(f'Time: {time} :   p{processor_num}  : Task {task_number} executed')
 
                 # bar display ###
-                bar = axe.bar(x=time, height=1, width=execute_task.task.getWcet(), color=f'C{task_number}', alpha=0.15)
+                bar = axe.bar(x=time, height=1, width=execute_task.task.getWcet(),
+                              color='blue', edgecolor='black', alpha=0.15, align='edge')
                 self.barLabel(bar=bar, label=f'T{task_number}', axe=axe)
                 # bar display ###
 
                 execute_task.i = execute_task.i + 1
-                execute_task.absolute_deadline = execute_task.task.getPeriod() * execute_task.i
-                runtime_task = execute_task  # making sure that the time is updated to the latest take executed
-
-            time = time + runtime_task.task.getWcet()  # updating Ti
+                # the absolute deadline corresponds to the upcoming period's deadline
+                # added one to this one because the upcoming
+                execute_task.absolute_deadline = execute_task.task.getPeriod() * (execute_task.i + 1)
+                time = time + execute_task.task.getWcet()
 
     @staticmethod
     def barLabel(bar, label, axe):
         for b in bar:
             height = b.get_height()
-            axe.annotate(label, xy=(b.get_x() + b.get_width()/2, height), xytext=(4, 3),
+            axe.annotate(label, xy=(b.get_x() + b.get_width() / 2, height), xytext=(4, 3),
                          textcoords='offset pixels', ha='left', va='bottom', fontsize=8)
