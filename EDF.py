@@ -17,7 +17,6 @@ class RuntimeTask:  # This class would be used to keep track of  tasks' absolute
 
     def computeExecution(self, time):
         task_period = self.i * self.task.getPeriod()
-        print(task_period, time, self.absolute_deadline)
         exp = task_period <= time < self.absolute_deadline
         execution_time = time
         if not exp:
@@ -74,7 +73,6 @@ class EDF:
         while self.__interval__ >= time:
             execute_tasks = self.__minAbsoluteDeadline(queue, time)
             for execute_task in execute_tasks:
-                print(execute_task.absolute_deadline)
                 task_number = int(execute_task.task.getNumber())
                 # updating the current time
                 time = execute_task.computeExecution(time)  # updating Ti

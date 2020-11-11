@@ -11,11 +11,26 @@ import csv
 
 
 class TaskGenerator:
-    def __init__(self, number, utilization):  # number : number of tasks, utilization : the whole utilization
+    def __init__(self, number, utilization):  # number : number of tasks, utilization : the whole tasks utilization
         self.__number__ = number
         self.__utilization__ = utilization
         self.__utilization_set__ = []
         self.__tasks__ = []
+
+    # getters and setters ## begin
+    def getNumber(self):
+        return self.__number__
+
+    def setNumber(self, number):
+        self.__number__ = number
+
+    def getUtilization(self):
+        return self.__utilization__
+
+    def setUtilization(self, utilization):
+        self.__utilization__ = utilization
+
+    # getters and setters ## end
 
     def uniFastDiscarded(self):  # implementation of the uniFast algorithm for generating the appropriate task set
         sum_u = self.__utilization__
