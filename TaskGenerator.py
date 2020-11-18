@@ -1,8 +1,3 @@
-"""
-this part concerns the task generation, where task would be generated according to a given utilization U and
-number of task n
-"""
-
 from random import random
 from math import pow
 from scipy import stats
@@ -11,13 +6,20 @@ import csv
 
 
 class TaskGenerator:
+    """
+    This class generate task parameter, where task would be generated according to a given utilization U and
+    number of task n
+    Attributes:
+        number (int): represents the number of task
+        utilization : represent the global utilization
+    """
     def __init__(self, number, utilization):  # number : number of tasks, utilization : the whole tasks utilization
         self.__number__ = number
         self.__utilization__ = utilization
         self.__utilization_set__ = []
         self.__tasks__ = []
 
-    # getters and setters ## begin
+    # getters and setters ##
     def getNumber(self):
         return self.__number__
 
@@ -30,9 +32,13 @@ class TaskGenerator:
     def setUtilization(self, utilization):
         self.__utilization__ = utilization
 
-    # getters and setters ## end
+    # getters and setters ##
 
     def uniFastDiscarded(self):  # implementation of the uniFast algorithm for generating the appropriate task set
+        """
+        This method implements the uunifast algorithm for task utilization generation
+        then update the __utilization_set__ attribute
+        """
         sum_u = self.__utilization__
         n = self.__number__ + 1
         i = 1  # the index
@@ -48,6 +54,9 @@ class TaskGenerator:
 
     # utilization is defined by : ∑Ci/Ti =Ui for i =0 to i=n
     def generateTasks(self):
+        """
+        This method generates task parameters from the __utilization_set__ array attribute
+        """
         # generating  random periods according to a  uniform distribution btw 100ms to 1000ms
         x = stats.loguniform.rvs(100, 1000, size=len(self.__utilization_set__))
         i = 0
@@ -61,8 +70,10 @@ class TaskGenerator:
             self.__tasks__.append(task)
             i = i + 1
 
-    # Writing the tasks to the csv file
     def toCsvFile(self):
+        """
+        This method transfer the tasks to a CSV file for a later use
+        """
         file_name = "Tasks.csv"
         with open(file_name, 'w', newline='\n') as tasks_file:
             fields = ["offset", "deadline", "period", "wcet", "utilization", "number"]

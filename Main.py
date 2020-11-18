@@ -1,11 +1,12 @@
 """
-The main class where everything would be put together
+The main class where all the defined object would be put together
 
 """
+import getopt
+import sys
 from Partitionner import Partitioner
 from TaskGenerator import TaskGenerator
 from EDF import EDF
-import sys, getopt
 
 
 class Main:
@@ -19,7 +20,7 @@ class Main:
         # s : order , iu| du  : increasing or decreasing order
         # l : time interval
         if len(args) < 5:
-            print("Tasks should in the form of : <Main_file>"
+            print("Tasks should be in the form of : <Main_file>"
                   " -u <number> -n <number> -h ff|wf|bf|nf -s iu|du -l <limit>")
             raise NameError('not enough arguments')
 
@@ -28,6 +29,7 @@ class Main:
         heuristics = ""
         order_switcher = {"iu": "ASC", "du": "DESC"}
         order = ""
+        interval = None
         for current_arg, current_value in args:
             if current_arg in '-u':
                 tasks_utilization = float(current_value)
@@ -40,18 +42,22 @@ class Main:
             if current_arg in '-l':
                 interval = float(current_value)
 
-        t = TaskGenerator(tasks_number, tasks_utilization)
-        t.uniFastDiscarded()  # using the unifast algorithm to generate tasks
-        t.generateTasks()  # Generating tasks
-        t.toCsvFile()  # transferring the task to the CSV file
+        # now the parameters can be used to generate the the tasks scheduling
+        if tasks_number > 0 and tasks_utilization > 0:
+            t = TaskGenerator(tasks_number, tasks_utilization)
+            t.uniFastDiscarded()  # using the unifast algorithm to generate tasks
+            t.generateTasks()  # Generating tasks
+            t.toCsvFile()  # transferring the tasks to the CSV file
         p = Partitioner("Tasks.csv")  # partitioning the tasks
         p.extractTasks()  # extracting tasks
         p.sort(order)
+
         heuristics_switcher = {"wf": p.worstFit(),
                                "nf": p.nextFit(),
                                "bf": p.bestFit(),
                                "ff": p.firstFit()}
         heuristics_switcher.get(heuristics)
+
         p.displayProcessors()  # this is useful to have a look at tasks distribution in the cores
         edf = EDF(p.getProcessors(), interval=interval)  # the EDF scheduler class
         edf.scheduler()
