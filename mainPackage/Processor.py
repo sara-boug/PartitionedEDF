@@ -1,4 +1,4 @@
-from Task import Task
+from mainPackage.Task import Task
 """
  this class contain an implementation of a single processor
  Attribute : 

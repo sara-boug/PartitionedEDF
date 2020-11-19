@@ -1,7 +1,7 @@
 from random import random
 from math import pow
 from scipy import stats
-from Task import Task
+from mainPackage.Task import Task
 import csv
 
 

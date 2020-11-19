@@ -1,5 +1,5 @@
-from Processor import Processor
-from Task import Task
+from mainPackage.Processor import Processor
+from mainPackage.Task import Task
 import csv
 
 

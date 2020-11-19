@@ -4,9 +4,9 @@ The main class where all the defined object would be put together
 """
 import getopt
 import sys
-from Partitionner import Partitioner
-from TaskGenerator import TaskGenerator
-from EDF import EDF
+from mainPackage.Partitionner import Partitioner
+from mainPackage.TaskGenerator import TaskGenerator
+from mainPackage.EDF import EDF
 
 
 class Main:
@@ -30,6 +30,7 @@ class Main:
         order_switcher = {"iu": "ASC", "du": "DESC"}
         order = ""
         interval = None
+        # extracting the cmd arguments
         for current_arg, current_value in args:
             if current_arg in '-u':
                 tasks_utilization = float(current_value)
@@ -48,7 +49,7 @@ class Main:
             t.uniFastDiscarded()  # using the unifast algorithm to generate tasks
             t.generateTasks()  # Generating tasks
             t.toCsvFile()  # transferring the tasks to the CSV file
-        p = Partitioner("Tasks.csv")  # partitioning the tasks
+        p = Partitioner("mainPackage/Tasks.csv")  # partitioning the tasks
         p.extractTasks()  # extracting tasks
         p.sort(order)
 

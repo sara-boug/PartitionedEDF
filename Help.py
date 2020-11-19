@@ -1,11 +1,10 @@
-from EDF import EDF, RuntimeTask
-from Partitionner import Partitioner
-from TaskGenerator import TaskGenerator
-from Task import Task
-from Processor import Processor
+from mainPackage.EDF import EDF, RuntimeTask
+from mainPackage.Partitionner import Partitioner
+from mainPackage.TaskGenerator import TaskGenerator
+from mainPackage.Task import Task
+from mainPackage.Processor import Processor
 
-
-# you can execute this program such that python Help.py
+# you can execute this program such that: <current_directory>/python Help.py
 help(EDF)
 help(RuntimeTask)
 help(Partitioner)
